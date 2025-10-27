@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { NavLink } from "react-router";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -32,12 +33,12 @@ const Navbar = () => {
         <ul className="hidden md:flex gap-8 text-lg">
           {links.map((link) => (
             <li key={link.name}>
-              <a
+              <NavLink
                 href={link.href}
                 className="relative text-gray-300 hover:text-cyan-400 transition-colors after:absolute after:w-0 after:h-0.5 after:bg-cyan-400 after:left-0 after:-bottom-1 hover:after:w-full after:transition-all after:duration-300"
               >
                 {link.name}
-              </a>
+              </NavLink>
             </li>
           ))}
         </ul>
@@ -60,13 +61,13 @@ const Navbar = () => {
         <ul className="flex flex-col items-center gap-4 py-4">
           {links.map((link) => (
             <li key={link.name}>
-              <a
+              <NavLink
                 href={link.href}
                 onClick={() => setOpen(false)}
                 className="block text-lg text-gray-300 hover:text-cyan-400 transition"
               >
                 {link.name}
-              </a>
+              </NavLink>
             </li>
           ))}
         </ul>
