@@ -7,8 +7,8 @@ const Navbar = () => {
 
   const links = [
     { name: "Inicio", href: "/" },
-    { name: "Categorías", href: "/categorias" },
-    { name: "Populares", href: "/populares" },
+    { name: "Contacto", href: "/contacto" },
+    { name: "Nosotros", href: "/nosotros" },
   ];
 
   return (
@@ -16,8 +16,8 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo */}
         <h1 className="text-xl font-bold tracking-tight flex items-center gap-1 cursor-pointer text-cyan-400">
-          <span className="text-purple-400">🤖</span> IT
-          <span className="text-purple-500">Free</span>Courses
+          <span className="text-purple-400">🤖</span> Course
+          <span className="text-purple-500">Suite</span>
         </h1>
 
         {/* Buscador */}
@@ -34,7 +34,7 @@ const Navbar = () => {
           {links.map((link) => (
             <li key={link.name}>
               <NavLink
-                href={link.href}
+                to={link.href}
                 className="relative text-gray-300 hover:text-cyan-400 transition-colors after:absolute after:w-0 after:h-0.5 after:bg-cyan-400 after:left-0 after:-bottom-1 hover:after:w-full after:transition-all after:duration-300"
               >
                 {link.name}

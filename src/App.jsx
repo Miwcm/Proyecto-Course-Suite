@@ -5,10 +5,10 @@ import Rutas from "./routes/Rutas"
 
 const App = () => {
   return (
-  < BrowserRouter>
+  <>
     <Navbar />
-    <Rutas></Rutas>
-  </BrowserRouter>
+    <Rutas />
+  </>
   )
 }
 

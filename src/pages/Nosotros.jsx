@@ -12,7 +12,7 @@ const Nosotros = () => {
             Sobre Nosotros
           </h1>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Conoce más sobre nuestra misión, objetivos y el equipo que hace posible IT Free Courses
+            Conoce más sobre nuestra misión, objetivos y el equipo que hace posible Course Suite
           </p>
         </div>
 
