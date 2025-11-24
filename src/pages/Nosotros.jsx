@@ -1,5 +1,5 @@
-import Mission from "../components/Mission"
-import Objectives from "../components/Objectives"
+import Mision from "../components/Mision"
+import Objectivos from "../components/Objetivos"
 import Team from "../components/Team"
 
 const Nosotros = () => {
@@ -19,7 +19,7 @@ const Nosotros = () => {
         {/* Components */}
         <div className="space-y-20">
           <Mision />
-          <Objectivos />
+          <Objectivos/>
           <Team />
         </div>
       </div>

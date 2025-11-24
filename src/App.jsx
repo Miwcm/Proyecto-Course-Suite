@@ -1,11 +1,14 @@
+import { BrowserRouter } from "react-router"
 import Navbar from "./components/Navbar"
+import Rutas from "./routes/Rutas"
 
 
 const App = () => {
   return (
+  < BrowserRouter>
     <Navbar />
-
-    /*faltan las rutas?*/ 
+    <Rutas></Rutas>
+  </BrowserRouter>
   )
 }
 
