@@ -16,7 +16,12 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo */}
         <h1 className="text-xl font-bold tracking-tight flex items-center gap-1 cursor-pointer text-cyan-400">
-          <span className="text-purple-400">🤖</span> Course
+          <img
+            src="../public/imagenes/course-suite-logo.png"
+            alt="Course Suite"
+            className="h-16 w-auto object-contain"
+          />
+          Course
           <span className="text-purple-500">Suite</span>
         </h1>
 
