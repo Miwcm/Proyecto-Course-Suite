@@ -6,7 +6,6 @@ import Rutas from "./routes/Rutas"
 const App = () => {
   return (
   <>
-    <Navbar />
     <Rutas />
   </>
   )
