@@ -4,6 +4,7 @@ import Nosotros from "../pages/Nosotros"
 import Contacto from "../pages/Contacto"
 import NoEncontrado from "../pages/NoEncontrado"
 import Cursos from "../pages/Cursos"
+import CursosCategoria from "../pages/CursosCategoria"
 
 const Rutas = () => {
 
@@ -16,6 +17,10 @@ const Rutas = () => {
              {
                 path: '/cursos',
                 element: <Cursos />
+            },
+            {
+                path: '/cursos/:categoria',
+                element: <CursosCategoria/>
             },
             {
                 path: '/nosotros',

@@ -14,7 +14,7 @@ const Inicio = () => {
   return (
     <div
       id="inicio"
-      className="min-h-screen bg-gradient-to-b from-slate-950 to-slate-900 text-white"
+      className=" bg-gradient-to-b from-slate-950 to-slate-900 text-white"
     >
 
       <main className="px-4 pt-6 pb-20 max-w-6xl mx-auto">
