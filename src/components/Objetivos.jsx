@@ -1,7 +1,7 @@
 import { Target, Users, Rocket, Award } from "lucide-react"
 
-const Objectivos = () => {
-  const objectivos = [
+const Objetivos = () => {
+  const objetivos = [
     {
       icon: <Target className="w-8 h-8" />,
       title: "Accesibilidad Universal",
@@ -35,7 +35,7 @@ const Objectivos = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {objectivos.map((objective, index) => (
+        {objetivos.map((objective, index) => (
           <div
             key={index}
             className="bg-[#151523] rounded-xl p-6 border border-purple-800/40 hover:border-cyan-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/20"
@@ -54,4 +54,4 @@ const Objectivos = () => {
   )
 }
 
-export default Objectivos
+export default Objetivos

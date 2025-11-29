@@ -3,6 +3,7 @@ import Inicio from "../pages/Inicio"
 import Nosotros from "../pages/Nosotros"
 import Contacto from "../pages/Contacto"
 import NoEncontrado from "../pages/NoEncontrado"
+import Cursos from "../pages/Cursos"
 
 const Rutas = () => {
 
@@ -11,6 +12,10 @@ const Rutas = () => {
             {
                 path: '/',
                 element: <Inicio />
+            },
+             {
+                path: '/cursos',
+                element: <Cursos />
             },
             {
                 path: '/nosotros',
