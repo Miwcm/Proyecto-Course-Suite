@@ -1,18 +1,28 @@
-
+// src/components/CoursesCarousel.jsx
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import { COURSES } from '../data/courses'
 import CourseCard from './CourseCard'
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 
-const CoursesCarousel = ({ activeTech }) => {
+const CoursesCarousel = ({ activeTech, showTitle = true, limit }) => {
   const [index, setIndex] = useState(0)
 
-  const filtered = useMemo(
-    () => COURSES.filter((c) => c.category === activeTech),
-    [activeTech]
-  )
+  const filtered = useMemo(() => {
+    const byCategory = COURSES.filter((c) => c.category === activeTech)
+
+    // Ordenamos por mejor rating
+    const sorted = [...byCategory].sort((a, b) => b.rating - a.rating)
+
+    // Si hay límite, nos quedamos solo con los primeros N
+    return typeof limit === 'number' ? sorted.slice(0, limit) : sorted
+  }, [activeTech, limit])
 
   const total = filtered.length
+
+  // Si cambia la categoría o el límite, volvemos al inicio del carrusel
+  useEffect(() => {
+    setIndex(0)
+  }, [activeTech, limit, total])
 
   const next = () => {
     if (!total) return
@@ -25,13 +35,15 @@ const CoursesCarousel = ({ activeTech }) => {
   }
 
   return (
-    <section id="populares" className="mt-8">
-      <h2 className="text-lg font-bold text-white mb-3">
-        Mejor valorados en{' '}
-        <span className="bg-gradient-to-r from-cyan-400 to-fuchsia-500 bg-clip-text text-transparent">
-          {activeTech}
-        </span>
-      </h2>
+    <section className="mt-4">
+      {showTitle && (
+        <h2 className="text-lg font-bold text-white mb-3">
+          Mejor valorados en{' '}
+          <span className="bg-gradient-to-r from-cyan-400 to-fuchsia-500 bg-clip-text text-transparent">
+            {activeTech}
+          </span>
+        </h2>
+      )}
 
       {/* Mobile: scroll horizontal simple */}
       <div className="flex gap-3 overflow-x-auto no-scrollbar md:hidden py-2">
