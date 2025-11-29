@@ -1,9 +1,12 @@
 import Mision from "../components/Mision"
+import Navbar from "../components/Navbar"
 import Objectivos from "../components/Objetivos"
 import Team from "../components/Team"
 
 const Nosotros = () => {
   return (
+    <>
+      <Navbar />
     <div className="min-h-screen bg-gradient-to-b from-[#0f0f1a] to-[#1a1a2e] text-white">
       <div className="max-w-7xl mx-auto px-6 py-16">
         {/* Header */}
@@ -24,6 +27,7 @@ const Nosotros = () => {
         </div>
       </div>
     </div>
+    </>
   )
 }
 

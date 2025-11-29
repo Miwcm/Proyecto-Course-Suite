@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { NavLink } from "react-router";
+import { NavLink } from "react-router"; 
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -14,18 +14,21 @@ const Navbar = () => {
   return (
     <nav className="bg-[#0f0f1a] text-white shadow-lg sticky top-0 z-50 border-b border-purple-800/40">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        {/* Logo */}
-        <h1 className="text-xl font-bold tracking-tight flex items-center gap-1 cursor-pointer text-cyan-400">
+        {/* Logo (clickeable al inicio) */}
+        <NavLink
+          to="/"
+          className="text-xl font-bold tracking-tight flex items-center gap-1 cursor-pointer text-cyan-400"
+        >
           <img
-            src="../public/imagenes/course-suite-logo.png"
+            src="/imagenes/course-suite-logo.png" // 👈 desde /public
             alt="Course Suite"
             className="h-16 w-auto object-contain"
           />
           Course
           <span className="text-purple-500">Suite</span>
-        </h1>
+        </NavLink>
 
-        {/* Buscador */}
+        {/* Buscador Desktop */}
         <div className="hidden md:block w-1/3 relative">
           <input
             type="text"
@@ -48,7 +51,7 @@ const Navbar = () => {
           ))}
         </ul>
 
-        {/* Botón Hamburguesa */}
+        {/* Botón Hamburguesa (Mobile) */}
         <button
           onClick={() => setOpen(!open)}
           className="md:hidden p-2 rounded hover:bg-white/10 transition"
@@ -67,7 +70,7 @@ const Navbar = () => {
           {links.map((link) => (
             <li key={link.name}>
               <NavLink
-                href={link.href}
+                to={link.href} 
                 onClick={() => setOpen(false)}
                 className="block text-lg text-gray-300 hover:text-cyan-400 transition"
               >
