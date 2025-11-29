@@ -12,4 +12,5 @@ Abre tu terminal en la raíz de tu proyecto y ejecuta el comando con tu gestor d
 ```bash
 npm install lucide-react
 
+npm install @heroicons/react
 
