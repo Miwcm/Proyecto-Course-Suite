@@ -3,11 +3,11 @@ import { Link } from 'react-router'
 
 const Contacto = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0f0f1a] to-[#1a1a2e] text-white">
+    <div className="min-h-screen bg-linear-to-b from-[#0f0f1a] to-[#1a1a2e] text-white">
       <div className="max-w-7xl mx-auto px-6 py-16">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
+          <h1 className="text-5xl font-bold mb-4 bg-linear-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
             Contacto
           </h1>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
@@ -34,7 +34,7 @@ const Contacto = () => {
 
             <a
               href="mailto:equipo.coursesuite@gmail.com"
-              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-cyan-400 to-fuchsia-500 px-6 py-2.5 text-sm font-semibold text-slate-950 hover:brightness-110"
+              className="inline-flex items-center gap-2 rounded-full bg-linear-to-r from-cyan-400 to-fuchsia-500 px-6 py-2.5 text-sm font-semibold text-slate-950 hover:brightness-110"
             >
               ✉️ equipo.coursesuite@gmail.com
             </a>

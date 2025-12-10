@@ -1,20 +1,23 @@
-import { useRoutes } from "react-router"
+import { useRoutes } from "react-router-dom"
 import Inicio from "../pages/Inicio"
 import Nosotros from "../pages/Nosotros"
 import Contacto from "../pages/Contacto"
 import NoEncontrado from "../pages/NoEncontrado"
 import Cursos from "../pages/Cursos"
 import CursosCategoria from "../pages/CursosCategoria"
+import Registro from "../pages/Registro"
+import Login from "../pages/Login"
+import Perfil from "../pages/Perfil"
 
 const Rutas = () => {
 
-  const componenteRutas = useRoutes(
+    const componenteRutas = useRoutes(
         [
             {
                 path: '/',
                 element: <Inicio />
             },
-             {
+            {
                 path: '/cursos',
                 element: <Cursos />
             },
@@ -31,14 +34,25 @@ const Rutas = () => {
                 element: <Contacto />
             },
             {
+                path: '/registro',
+                element: <Registro />
+            },
+            {
+                path: '/login',
+                element: <Login />
+            },
+            {
+                path: '/perfil',
+                element: <Perfil />
+            },
+            {
                 path: '*',
                 element: <NoEncontrado />
             }
         ]
     )
 
-  return componenteRutas
-   
+    return componenteRutas
 }
 
 export default Rutas
