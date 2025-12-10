@@ -13,13 +13,10 @@ const CourseDetail = () => {
     const [reviews, setReviews] = useState([]);
     const [newReview, setNewReview] = useState({ rating: 0, comment: '' });
     const [hoverRating, setHoverRating] = useState(0);
-    // URL Base (Asegúrate que coincida con tu backend)
     const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
-    // 1. Lógica de Carga de Datos (Híbrida: Caché + Red)
     useEffect(() => {
         const loadData = async () => {
-            // A. Primero intentamos mostrar lo que ya tenemos en memoria (rápido)
             if (courses.length > 0) {
                 const found = courses.find(c => c.id === id || c._id === id);
                 if (found) {
@@ -30,17 +27,13 @@ const CourseDetail = () => {
                 }
             }
 
-            // B. Luego pedimos los datos COMPLETOS al servidor (seguro)
-            // Esto arregla el problema de que no lleguen las reseñas
             try {
                 const response = await fetch(`${BASE_URL}/api/courses/${id}`);
                 if (response.ok) {
                     const fullCourseData = await response.json();
 
-                    // Actualizamos con la info fresca del servidor
                     setCourse(prev => ({ ...prev, ...fullCourseData }));
 
-                    // Si el servidor manda reviews, las usamos
                     if (fullCourseData.reviews && Array.isArray(fullCourseData.reviews)) {
                         setReviews([...fullCourseData.reviews].reverse());
                     }
@@ -51,14 +44,12 @@ const CourseDetail = () => {
         };
 
         loadData();
-    }, [id, courses]); // Se ejecuta al cambiar ID o cargar los cursos globales
+    }, [id, courses]); 
 
-    // 2. Enviar reseña
     const handleSubmitReview = async (e) => {
         e.preventDefault();
         if (newReview.rating === 0 || !newReview.comment.trim()) return;
 
-        // Validamos ID (mongo usa _id)
         const courseId = course._id || course.id;
 
         try {
@@ -87,7 +78,6 @@ const CourseDetail = () => {
             if (updatedCourse.reviews) {
                 setReviews([...updatedCourse.reviews].reverse());
 
-                // Actualizamos estado visual
                 setCourse(prev => ({
                     ...prev,
                     rating: updatedCourse.puntaje,
@@ -103,7 +93,6 @@ const CourseDetail = () => {
         }
     };
 
-    // Loading inicial
     if (!course && globalLoading) {
         return (
             <div className="min-h-screen bg-slate-950 flex items-center justify-center">
@@ -122,7 +111,7 @@ const CourseDetail = () => {
                 <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/80 to-transparent z-10"></div>
                 <img
                     src={course.image}
-                    alt={course.title || course.nombre} // Soporte para ambos nombres de propiedad
+                    alt={course.title || course.nombre} 
                     className="w-full h-full object-cover opacity-60 blur-sm"
                 />
                 <div className="absolute bottom-0 left-0 w-full z-20 px-6 pb-12">
