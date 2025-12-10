@@ -10,16 +10,23 @@ const Footer = () => {
         <div className="md:col-span-2">
           <NavLink
             to="/"
-            className="flex items-center gap-2 cursor-pointer"
+            // 1. Agregamos 'group' aquí para que el hover afecte a los hijos (imagen y texto) simultáneamente
+            className="flex items-center gap-2 cursor-pointer group"
           >
             <img
               src="/imagenes/course-suite-logo.png"
               alt="Course Suite"
-              className="h-12 w-auto object-contain"
+              className="h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-110"
             />
-            <span className="text-2xl font-bold tracking-tight">
-              <span className="text-cyan-400">Course</span>
-              <span className="text-purple-500">Suite</span>
+
+            <span className="text-2xl font-bold tracking-tight flex gap-1">
+              <span className="text-cyan-400 transition-transform duration-300 group-hover:scale-110">
+                Course
+              </span>
+
+              <span className="text-purple-500 transition-transform duration-300 group-hover:scale-110">
+                Suite
+              </span>
             </span>
           </NavLink>
 
@@ -44,9 +51,9 @@ const Footer = () => {
                 <NavLink
                   to={link.href}
                   className="relative text-gray-300 hover:text-cyan-400 transition-colors
-                             after:absolute after:w-0 after:h-0.5 after:bg-cyan-400
-                             after:left-0 after:-bottom-1 hover:after:w-full
-                             after:transition-all after:duration-300"
+                              after:absolute after:w-0 after:h-0.5 after:bg-cyan-400
+                              after:left-0 after:-bottom-1 hover:after:w-full
+                              after:transition-all after:duration-300"
                 >
                   {link.name}
                 </NavLink>
@@ -71,8 +78,8 @@ const Footer = () => {
               <span
                 key={tag}
                 className="rounded-full border border-purple-700/40 px-3 py-1
-                           text-[0.75rem] text-gray-300
-                           hover:border-cyan-400 hover:text-cyan-300 transition"
+                            text-[0.75rem] text-gray-300
+                            hover:border-cyan-400 hover:text-cyan-300 transition"
               >
                 {tag}
               </span>

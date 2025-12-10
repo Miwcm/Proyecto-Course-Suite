@@ -1,3 +1,39 @@
 @import 'tailwindcss';
 
+/* 1. Comportamiento por defecto (Móviles): Barra OCULTA */
+.smart-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.smart-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
 
+/* 2. Comportamiento para PC (min-width: 768px): Barra FINA VISIBLE */
+/* Esto se activa automáticamente cuando la pantalla es mediana o grande */
+@media (min-width: 768px) {
+    .smart-scrollbar {
+        scrollbar-width: thin; 
+        scrollbar-color: #334155 transparent; 
+    }
+
+    .smart-scrollbar::-webkit-scrollbar {
+        display: block; /* Aquí forzamos que aparezca */
+        height: 6px;    /* Altura fina */
+    }
+
+    .smart-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .smart-scrollbar::-webkit-scrollbar-thumb {
+        background-color: #334155; /* Color gris azulado */
+        border-radius: 20px;
+        border: 2px solid transparent;
+        background-clip: content-box;
+    }
+
+    .smart-scrollbar::-webkit-scrollbar-thumb:hover {
+        background-color: #475569;
+    }
+}

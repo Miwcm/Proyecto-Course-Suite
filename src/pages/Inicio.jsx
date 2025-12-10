@@ -1,35 +1,60 @@
-import React, { useState } from 'react'
-import Navbar from '../components/Navbar'
+import React, { useState, useEffect, useMemo } from 'react'
 import TechTabs from '../components/TechTabs'
 import CoursesCarousel from '../components/CoursesCarousel'
-import { TECHNOLOGIES } from '../data/courses'
+import Hero from '../components/Hero' // <--- Importamos el Hero
+import { useCourses } from '../hooks/useCourses'
 
 const Inicio = () => {
+  const { courses, categories, loading } = useCourses();
 
-// Estado que guarda la tecnología seleccionada.
-// Empieza con la primera del array y cambia cuando el usuario toca una tab.
-// Determina qué cursos muestra el carrusel. 
-  const [activeTech, setActiveTech] = useState(TECHNOLOGIES[0])
+  const [activeTech, setActiveTech] = useState('')
+
+  useEffect(() => {
+    if (categories.length > 0 && !activeTech) {
+      setActiveTech(categories[0]); // Esto pondrá "Todos" por defecto
+    }
+  }, [categories, activeTech]);
+
+  const scrollToCategories = () => {
+    const element = document.getElementById('explorar-seccion');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setActiveTech('Todos'); // Forzamos que se vea "Todos"
+    }
+  }
+
+  const featuredCourses = useMemo(() => {
+    if (!courses.length) return [];
+    return [...courses].sort((a, b) => b.rating - a.rating).slice(0, 5);
+  }, [courses]);
+
+  if (loading) return <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">Cargando experiencia...</div>;
 
   return (
-    <div
-      id="inicio"
-      className=" bg-gradient-to-b from-slate-950 to-slate-900 text-white"
-    >
+    <div id="inicio" className="bg-slate-950 text-white">
 
-      <main className="px-4 pt-6 pb-20 max-w-6xl mx-auto">
-        <section className="mb-4">
-          <h1 className="text-2xl font-extrabold text-center sm:text-left">
-            Explora por Tecnología
-          </h1>
-          <p className="mt-2 text-sm text-slate-400 max-w-xl">
-            Descubre los mejores cursos gratuitos en desarrollo web y otras
-            áreas IT.
-          </p>
-          <TechTabs activeTech={activeTech} onChange={setActiveTech} />
-        </section>
+      <Hero onExploreClick={scrollToCategories} />
 
-        <CoursesCarousel activeTech={activeTech} />
+      <main className="px-4 pb-20 max-w-7xl mx-auto space-y-16">
+
+        {/* SECCIÓN 2: CURSOS DESTACADOS (Top 5) */}
+        {featuredCourses.length > 0 && (
+          <section className="mt-12">
+            <div className="flex items-center gap-2 mb-4">
+              <h2 className="text-2xl font-extrabold bg-linear-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
+                Cursos Destacados de la Semana
+              </h2>
+            </div>
+
+            <CoursesCarousel
+              courses={featuredCourses}
+              activeTech="Todos" 
+              showTitle={false}  
+            />
+          </section>
+        )}
+
+        <hr className="border-slate-800" />
       </main>
     </div>
   )
