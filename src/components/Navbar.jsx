@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Menu, X, LogOut, User as UserIcon } from "lucide-react";
-import { NavLink, Link } from "react-router-dom";
+import { Menu, X, LogOut, User as UserIcon, Search } from "lucide-react"; // Importamos Search
+import { NavLink, Link, useNavigate } from "react-router-dom"; // Importamos useNavigate
 import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(""); // Estado para la búsqueda
   const { user, logout } = useAuth();
+  const navigate = useNavigate(); // Hook para navegar
 
   const links = [
     { name: "Inicio", href: "/" },
@@ -13,6 +15,17 @@ const Navbar = () => {
     { name: "Contacto", href: "/contacto" },
     { name: "Nosotros", href: "/nosotros" },
   ];
+
+  // Función que maneja el envío del formulario de búsqueda
+  const handleSearch = (e) => {
+    e.preventDefault(); // Evita el recargo de página
+    if (searchTerm.trim()) {
+      // Redirige a la página de cursos con el parámetro de búsqueda
+      navigate(`/cursos?search=${encodeURIComponent(searchTerm)}`);
+      setOpen(false); // Cierra el menú mobile si está abierto
+      // Opcional: setSearchTerm(""); // Si quieres limpiar el input después de buscar
+    }
+  };
 
   return (
     <nav className="bg-[#0f0f1a] text-white shadow-lg sticky top-0 z-50 border-b border-purple-800/40">
@@ -28,11 +41,9 @@ const Navbar = () => {
             alt="Course Suite"
             className="h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-110"
           />
-
           <span className="transition-transform duration-300 group-hover:scale-110">
             Course
           </span>
-
           <span className="text-purple-500 transition-transform duration-300 group-hover:scale-110">
             Suite
           </span>
@@ -40,11 +51,21 @@ const Navbar = () => {
 
         {/* === BUSCADOR (Solo Desktop) === */}
         <div className="hidden lg:block w-1/3 max-w-md relative">
-          <input
-            type="text"
-            placeholder="Buscar cursos..."
-            className="w-full bg-slate-900/50 border border-purple-900 text-white placeholder-slate-500 rounded-full px-4 py-2 outline-none focus:border-cyan-400 transition duration-300 text-sm"
-          />
+          <form onSubmit={handleSearch} className="relative w-full">
+            <input
+              type="text"
+              placeholder="Buscar por tecnología, categoría..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full bg-slate-900/50 border border-purple-900 text-white placeholder-slate-500 rounded-full pl-4 pr-10 py-2 outline-none focus:border-cyan-400 transition duration-300 text-sm"
+            />
+            <button
+              type="submit"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-400 transition-colors"
+            >
+              <Search size={18} />
+            </button>
+          </form>
         </div>
 
         {/* === MENÚ DESKTOP === */}
@@ -108,7 +129,7 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* === MENÚ MOBILE DESPLEGABLE (CON TRANSICIONES NUEVAS) === */}
+      {/* === MENÚ MOBILE DESPLEGABLE === */}
       <div
         className={`md:hidden bg-[#151523] border-t border-purple-800/30 overflow-hidden transition-all duration-300 ease-in-out ${open ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
           }`}
@@ -124,8 +145,8 @@ const Navbar = () => {
                   onClick={() => setOpen(false)}
                   className={({ isActive }) =>
                     `block text-lg font-medium py-1 transition-all duration-300 ${isActive
-                      ? 'text-cyan-400 pl-4 border-l-4 border-cyan-400 bg-cyan-900/10' // Activo: Borde y fondo sutil
-                      : 'text-gray-300 hover:text-cyan-300 hover:pl-2' // Inactivo: Se mueve un poco a la derecha
+                      ? 'text-cyan-400 pl-4 border-l-4 border-cyan-400 bg-cyan-900/10'
+                      : 'text-gray-300 hover:text-cyan-300 hover:pl-2'
                     }`
                   }
                 >
@@ -137,18 +158,24 @@ const Navbar = () => {
 
           {/* Buscador Mobile */}
           <div className="relative">
-            <input
-              type="text"
-              placeholder="Buscar cursos..."
-              className="w-full bg-slate-900 border border-slate-700 text-white placeholder-slate-500 rounded-lg px-4 py-3 outline-none focus:border-cyan-400 transition-all duration-300 focus:shadow-[0_0_10px_rgba(34,211,238,0.2)]"
-            />
+            <form onSubmit={handleSearch}>
+              <input
+                type="text"
+                placeholder="Buscar cursos..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full bg-slate-900 border border-slate-700 text-white placeholder-slate-500 rounded-lg px-4 py-3 outline-none focus:border-cyan-400 transition-all duration-300 focus:shadow-[0_0_10px_rgba(34,211,238,0.2)]"
+              />
+              <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+                <Search size={20} />
+              </button>
+            </form>
           </div>
 
           <div className="h-px w-full bg-slate-700/50"></div>
 
-          {/* LÓGICA DE USUARIO MOBILE */}
+          {/* USUARIO MOBILE */}
           {user ? (
-            // Si está logueado
             <div className="space-y-3">
               <div className="flex items-center gap-3 mb-4 p-2 bg-slate-800/50 rounded-lg">
                 <img
@@ -183,7 +210,6 @@ const Navbar = () => {
               </button>
             </div>
           ) : (
-            // Si NO está logueado
             <div className="flex flex-col gap-3">
               <Link
                 to="/login"

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from '../context/AuthContext'; // 1. IMPORTAR EL CONTEXTO
+import { useAuth } from '../context/AuthContext'; 
 
 const Login = () => {
     const navigate = useNavigate();
-    const { login } = useAuth(); // 2. OBTENER LA FUNCIÓN LOGIN DEL CONTEXTO
+    const { login } = useAuth(); 
 
     const [formData, setFormData] = useState({ username: '', password: '' });
     const [error, setError] = useState('');
@@ -19,31 +19,28 @@ const Login = () => {
         setError('');
 
         try {
-            const res = await axios.post('http://localhost:3000/api/auth/login', formData);
-
-            // 3. CAMBIO IMPORTANTE: USAR LA FUNCIÓN LOGIN DEL CONTEXTO
-            // En lugar de localStorage.setItem manuales, preparamos los datos
-            // y se los damos al contexto.
+            const API_URL = import.meta.env.VITE_API_URL;
+            
+            const res = await axios.post(`${API_URL}/api/auth/login`, formData);
 
             const userData = {
                 username: res.data.username,
                 id: res.data.userId
             };
 
-            // Esta función guarda el token, el usuario y actualiza el Navbar al instante
             login(userData, res.data.token);
-
             navigate('/');
-            // Ya NO hace falta window.location.reload();
 
         } catch (err) {
-            setError(err.response?.data?.error || 'Credenciales incorrectas');
+            console.error(err);
+            setError(err.response?.data?.error || 'Credenciales incorrectas o error de servidor');
         }
     };
 
     return (
         <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4 relative overflow-hidden">
-
+            
+            <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
             <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
             <div className="max-w-md w-full bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-2xl p-8 shadow-2xl shadow-purple-900/20">
@@ -81,7 +78,7 @@ const Login = () => {
 
                     <button
                         type="submit"
-                        className="w-full bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-bold py-3 rounded-lg shadow-lg transition-all transform hover:scale-[1.02]"
+                        className="w-full bg-linear-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-bold py-3 rounded-lg shadow-lg transition-all transform hover:scale-[1.02]"
                     >
                         Iniciar Sesión
                     </button>

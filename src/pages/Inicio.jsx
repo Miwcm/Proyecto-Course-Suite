@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import TechTabs from '../components/TechTabs'
 import CoursesCarousel from '../components/CoursesCarousel'
-import Hero from '../components/Hero' // <--- Importamos el Hero
+import Hero from '../components/Hero' 
 import { useCourses } from '../hooks/useCourses'
 
 const Inicio = () => {
@@ -11,7 +11,7 @@ const Inicio = () => {
 
   useEffect(() => {
     if (categories.length > 0 && !activeTech) {
-      setActiveTech(categories[0]); // Esto pondrá "Todos" por defecto
+      setActiveTech(categories[0]); 
     }
   }, [categories, activeTech]);
 
@@ -19,7 +19,7 @@ const Inicio = () => {
     const element = document.getElementById('explorar-seccion');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
-      setActiveTech('Todos'); // Forzamos que se vea "Todos"
+      setActiveTech('Todos'); 
     }
   }
 
@@ -37,7 +37,6 @@ const Inicio = () => {
 
       <main className="px-4 pb-20 max-w-7xl mx-auto space-y-16">
 
-        {/* SECCIÓN 2: CURSOS DESTACADOS (Top 5) */}
         {featuredCourses.length > 0 && (
           <section className="mt-12">
             <div className="flex items-center gap-2 mb-4">

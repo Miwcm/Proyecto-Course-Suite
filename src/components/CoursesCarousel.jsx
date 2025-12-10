@@ -117,7 +117,7 @@ const CoursesCarousel = ({ activeTech, showTitle = true, limit, courses = [] }) 
         ))}
 
         {/* Relleno si estamos al final del loop para que no queden huecos */}
-        {index + 3 > total &&
+        {total > 3 && index + 3 > total &&
           filtered.slice(0, index + 3 - total).map((course) => (
             <CourseCard key={course._id || course.id} course={course} />
           ))}

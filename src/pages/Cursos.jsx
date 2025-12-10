@@ -1,26 +1,54 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom'; 
 import { useCourses } from '../hooks/useCourses';
+import { X } from 'lucide-react'; 
 import CoursesCarousel from '../components/CoursesCarousel';
 import TechTabs from '../components/TechTabs';
 
 const Cursos = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams(); 
   const { courses, categories, loading } = useCourses();
-
   const [activeTech, setActiveTech] = useState('Todos');
 
+  const searchTerm = searchParams.get("search");
+
+  useEffect(() => {
+    if (searchTerm) {
+      setActiveTech('Todos');
+    }
+  }, [searchTerm]);
+
   const handleVerMas = () => {
-    // === CAMBIO 1: Permitimos navegar siempre, incluso si es 'Todos' ===
-    // Antes teníamos: if (activeTech === 'Todos') return;
-    // Ahora simplemente navegamos. Esto llevará a /cursos/Todos
-    navigate(`/cursos/${encodeURIComponent(activeTech)}`);
+    if (!searchTerm) {
+    } else {
+      navigate(`/cursos/${encodeURIComponent(activeTech)}`);
+    }
   };
 
-  // Preparamos los cursos para la vista previa
-  const cursosParaMostrar = activeTech === 'Todos'
-    ? courses
-    : courses.filter(c => c.category === activeTech);
+  const handleTabChange = (category) => {
+    setActiveTech(category);
+    setSearchParams({}); 
+  };
+
+  const clearSearch = () => {
+    setSearchParams({});
+    setActiveTech('Todos');
+  };
+
+  const cursosParaMostrar = courses.filter(c => {
+    if (searchTerm) {
+      const query = searchTerm.toLowerCase();
+      return (
+        c.title?.toLowerCase().includes(query) ||
+        c.category?.toLowerCase().includes(query) ||
+        c.provider?.toLowerCase().includes(query) || 
+        c.description?.toLowerCase().includes(query)
+      );
+    }
+    if (activeTech === 'Todos') return true;
+    return c.category === activeTech;
+  });
 
   if (loading) {
     return (
@@ -48,7 +76,7 @@ const Cursos = () => {
           <TechTabs
             categories={categories}
             activeTech={activeTech}
-            onChange={setActiveTech}
+            onChange={handleTabChange}
           />
 
           <div className="mt-10">
@@ -56,38 +84,55 @@ const Cursos = () => {
               <div className="flex items-end justify-between mb-4 px-1">
                 <h2 className="text-xl font-bold flex items-center gap-2">
                   <span className="bg-linear-to-r from-cyan-400 to-fuchsia-500 bg-clip-text text-transparent">
-                    {activeTech === 'Todos' ? 'Todos los cursos' : activeTech}
+                    {searchTerm ? `Resultados para "${searchTerm}"` : (activeTech === 'Todos' ? 'Todos los cursos' : activeTech)}
                   </span>
+
+                  {searchTerm && (
+                    <button
+                      onClick={clearSearch}
+                      className="ml-2 p-1 bg-slate-800 rounded-full hover:bg-red-500/20 hover:text-red-400 transition"
+                      title="Borrar búsqueda"
+                    >
+                      <X size={16} />
+                    </button>
+                  )}
                 </h2>
 
                 <span className="text-xs text-slate-500 ml-2 mb-1">
                   ({cursosParaMostrar.length} encontrados)
                 </span>
 
-                {/* === CAMBIO 2: El botón ahora se muestra SIEMPRE === */}
-                {/* Quitamos la condición {activeTech !== 'Todos' && ...} */}
-                <button
-                  onClick={handleVerMas}
-                  className="group flex items-center gap-1 text-sm font-medium text-slate-400 hover:text-white transition-colors ml-auto"
-                >
-                  Ver más
-                  <span className="text-xs transition-transform group-hover:translate-x-1">&rarr;</span>
-                </button>
+                {!searchTerm && (
+                  <button
+                    onClick={handleVerMas}
+                    className="group flex items-center gap-1 text-sm font-medium text-slate-400 hover:text-white transition-colors ml-auto"
+                  >
+                    Ver más
+                    <span className="text-xs transition-transform group-hover:translate-x-1">&rarr;</span>
+                  </button>
+                )}
               </div>
 
               {cursosParaMostrar.length > 0 ? (
                 <CoursesCarousel
                   courses={cursosParaMostrar}
-                  // Si es 'Todos', pasamos undefined para que el carrusel no filtre internamente
-                  activeTech={activeTech === 'Todos' ? undefined : activeTech}
+                  activeTech={searchTerm ? undefined : (activeTech === 'Todos' ? undefined : activeTech)}
                   showTitle={false}
-                  limit={activeTech === 'Todos' ? 50 : 10}
+                  limit={50}
                 />
               ) : (
-                <div className="text-center py-20 bg-slate-900/50 rounded-lg border border-slate-800">
-                  <p className="text-slate-400">
-                    No se encontraron cursos.
+                <div className="text-center py-20 bg-slate-900/50 rounded-lg border border-slate-800 flex flex-col items-center">
+                  <p className="text-slate-400 mb-4">
+                    No encontramos cursos que coincidan con "{searchTerm || activeTech}".
                   </p>
+                  {searchTerm && (
+                    <button
+                      onClick={clearSearch}
+                      className="text-cyan-400 hover:underline"
+                    >
+                      Ver todos los cursos
+                    </button>
+                  )}
                 </div>
               )}
             </section>

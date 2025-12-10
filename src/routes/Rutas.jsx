@@ -8,6 +8,7 @@ import CursosCategoria from "../pages/CursosCategoria"
 import Registro from "../pages/Registro"
 import Login from "../pages/Login"
 import Perfil from "../pages/Perfil"
+import CourseDetail from "../pages/CourseDetail"
 
 const Rutas = () => {
 
@@ -44,6 +45,10 @@ const Rutas = () => {
             {
                 path: '/perfil',
                 element: <Perfil />
+            },
+            {
+                path: '/curso/:id',
+                element: <CourseDetail />
             },
             {
                 path: '*',

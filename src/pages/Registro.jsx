@@ -7,8 +7,6 @@ const Registro = () => {
 
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-
-    // Estado para guardar el usuario generado por el backend
     const [generatedUser, setGeneratedUser] = useState(null);
 
     const handleSubmit = async (e) => {
@@ -16,22 +14,18 @@ const Registro = () => {
         setError('');
 
         try {
-            // Tu backend solo espera { password }
-            const res = await axios.post('http://localhost:3000/api/auth/register', { password });
+            const API_URL = import.meta.env.VITE_API_URL;
 
-            // Si sale bien, el backend devuelve: { username, token, userId ... }
-            // Guardamos el usuario para mostrárselo a la persona
+            const res = await axios.post(`${API_URL}/api/auth/register`, { password });
+
             setGeneratedUser(res.data.username);
 
-            // Opcional: Ya podrías guardar el token y loguearlo automáticamente
-            // localStorage.setItem('token', res.data.token);
-
         } catch (err) {
+            console.error(err); 
             setError(err.response?.data?.error || 'Error al registrarse');
         }
     };
-
-    // SI YA SE REGISTRÓ, MOSTRAMOS SU NOMBRE DE USUARIO
+    
     if (generatedUser) {
         return (
             <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
@@ -60,11 +54,9 @@ const Registro = () => {
         );
     }
 
-    // FORMULARIO DE REGISTRO (SOLO CONTRASEÑA)
     return (
         <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4 relative overflow-hidden">
 
-            {/* Fondos decorativos */}
             <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
 
             <div className="max-w-md w-full bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-2xl p-8 shadow-2xl">
