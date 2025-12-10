@@ -2,7 +2,6 @@ const Mision = () => {
     return (
       <section className="bg-[#151523] rounded-2xl p-8 md:p-12 border border-purple-800/40 shadow-xl">
         <div className="flex items-center gap-3 mb-6">
-          <span className="text-4xl">🎯</span>
           <h2 className="text-3xl font-bold text-cyan-400">Nuestra Misión</h2>
         </div>
         <p className="text-gray-300 text-lg leading-relaxed">
